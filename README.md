@@ -31,22 +31,22 @@ Generate application key:
 php artisan key:generate
 ```
 
-Run database migrations:
+Run [sail](https://laravel.com/docs/12.x/sail#main-content):
+
+```sh
+./vendor/bin/sail up
+```
+
+(inside the container) Run database migrations:
 
 ```sh
 php artisan migrate
 ```
 
-Run database seeder:
+(inside the container) Run database seeder:
 
 ```sh
 php artisan db:seed
-```
-
-Run [sail](https://laravel.com/docs/12.x/sail#main-content):
-
-```sh
-./vendor/bin/sail up
 ```
 
 (inside the container) Install NPM dependencies:
