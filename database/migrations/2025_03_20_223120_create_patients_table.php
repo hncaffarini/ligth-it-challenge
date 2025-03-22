@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('full_name');
             $table->string('email')->unique();
-            $table->string('phone');
+            $table->tinyInteger('phone_country');
+            $table->string('phone_number');
             $table->string('document_photo');
         });
     }

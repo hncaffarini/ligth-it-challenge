@@ -10,7 +10,8 @@ import { Label } from '@/components/ui/label';
 type RegisterForm = {
     full_name: string;
     email: string;
-    phone: string;
+    phone_country: string;
+    phone_number: string;
     document_photo: File | null;
 };
 
@@ -22,7 +23,8 @@ export default function Register({ onPatientAdded }: RegisterProps) {
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         full_name: '',
         email: '',
-        phone: '',
+        phone_country: '',
+        phone_number: '',
         document_photo: null,
     });
 
@@ -42,6 +44,11 @@ export default function Register({ onPatientAdded }: RegisterProps) {
               console.log("Error");
             },
         });
+    };
+
+    const handlePhoneChange = (field: keyof RegisterForm, value: string) => {
+        const numericValue = value.replace(/\D/g, '');
+        setData(field, numericValue);
     };
 
     return (
@@ -81,19 +88,35 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                 </div>
 
                 <div className="grid gap-2">
-                    <Label htmlFor="phone">Phone number</Label>
+                    <Label htmlFor="phone_country">Country Code</Label>
                     <Input
-                        id="phone"
+                        id="phone_country"
                         type="text"
                         required
                         tabIndex={3}
-                        autoComplete="phone"
-                        value={data.phone}
-                        onChange={(e) => setData('phone', e.target.value)}
+                        autoComplete="phone_country"
+                        value={data.phone_country}
+                        onChange={(e) => handlePhoneChange('phone_country', e.target.value)}
                         disabled={processing}
-                        placeholder="phone"
+                        placeholder="+598"
                     />
-                    <InputError message={errors.phone} />
+                    <InputError message={errors.phone_country} />
+                </div>
+
+                <div className="grid gap-2">
+                    <Label htmlFor="phone_number">Phone Number</Label>
+                    <Input
+                        id="phone_number"
+                        type="text"
+                        required
+                        tabIndex={4}
+                        autoComplete="phone_number"
+                        value={data.phone_number}
+                        onChange={(e) => handlePhoneChange('phone_number', e.target.value)}
+                        disabled={processing}
+                        placeholder="11 2222 3333"
+                    />
+                    <InputError message={errors.phone_number} />
                 </div>
 
                 <div className="grid gap-2">
@@ -103,7 +126,7 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                         type="file"
                         accept="image/*"
                         required
-                        tabIndex={4}
+                        tabIndex={5}
                         onChange={(e) => {
                             if (e.target.files && e.target.files[0]) {
                                 setData('document_photo', e.target.files[0]);

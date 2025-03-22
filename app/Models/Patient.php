@@ -21,7 +21,8 @@ class Patient extends Model
     protected $fillable = [
         'full_name',
         'email',
-        'phone',
+        'phone_country',
+        'phone_number',
         'document_photo',
     ];
 }

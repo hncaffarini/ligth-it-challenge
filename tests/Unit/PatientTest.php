@@ -24,14 +24,16 @@ class PatientTest extends TestCase
         $response = $this->post(route('patient.store'), [
             'full_name' => 'John Doe',
             'email' => 'johndoe@gmail.com',
-            'phone' => '1234567890',
+            'phone_country' => '11',
+            'phone_number' => '1234567890',
             'document_photo' => $file,
         ]);
 
         $this->assertDatabaseHas('patients', [
             'full_name' => 'John Doe',
             'email' => 'johndoe@gmail.com',
-            'phone' => '1234567890',
+            'phone_country' => '11',
+            'phone_number' => '1234567890',
         ]);
 
         $patient = Patient::first();
@@ -50,7 +52,8 @@ class PatientTest extends TestCase
         $response = $this->post(route('patient.store'), [
             'full_name' => 'John Doe',
             'email' => 'johndoe@yahoo.com',
-            'phone' => '1234567890',
+            'phone_country' => '11',
+            'phone_number' => '1234567890',
             'document_photo' => UploadedFile::fake()->image('document.jpg'),
         ]);
 
@@ -62,14 +65,16 @@ class PatientTest extends TestCase
         Patient::create([
             'full_name' => 'Existing Patient',
             'email' => 'johndoe@gmail.com',
-            'phone' => '1234567890',
+            'phone_country' => '11',
+            'phone_number' => '1234567890',
             'document_photo' => 'photos/existing.jpg',
         ]);
 
         $response = $this->post(route('patient.store'), [
             'full_name' => 'John Doe',
             'email' => 'johndoe@gmail.com', // Correo duplicado
-            'phone' => '1234567890',
+            'phone_country' => '11',
+            'phone_number' => '1234567890',
             'document_photo' => UploadedFile::fake()->image('document.jpg'),
         ]);
 
@@ -81,7 +86,8 @@ class PatientTest extends TestCase
         $response = $this->post(route('patient.store'), [
             'full_name' => 'John Doe',
             'email' => 'johndoe@gmail.com',
-            'phone' => '1234567890',
+            'phone_country' => '11',
+            'phone_number' => '1234567890',
             'document_photo' => UploadedFile::fake()->create('document.pdf'), // Archivo no válido
         ]);
 
@@ -90,7 +96,8 @@ class PatientTest extends TestCase
         $response = $this->post(route('patient.store'), [
             'full_name' => 'John Doe',
             'email' => 'johndoe@gmail.com',
-            'phone' => '1234567890',
+            'phone_country' => '11',
+            'phone_number' => '1234567890',
             'document_photo' => UploadedFile::fake()->image('document.jpg')->size(3000), // 3 MB
         ]);
 
@@ -101,6 +108,6 @@ class PatientTest extends TestCase
     public function test_it_rejects_missing_required_fields()
     {
         $response = $this->post(route('patient.store'), []);
-        $response->assertSessionHasErrors(['full_name', 'email', 'phone', 'document_photo']);
+        $response->assertSessionHasErrors(['full_name', 'email', 'phone_country', 'phone_number', 'document_photo']);
     }
 }

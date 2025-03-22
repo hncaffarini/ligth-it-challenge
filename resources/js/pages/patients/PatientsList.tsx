@@ -22,7 +22,8 @@ function PatientsList() {
                       </CardDescription>
                   </CardHeader>
                   <CardContent className="px-10 py-8">
-                    <p>Phone number: {patient.phone}</p>
+                    <p>Phone country: (+{patient.phone_country})</p>
+                    <p>Phone number: {patient.phone_number}</p>
                     <img src={patient.document_photo} alt="Document" width="100" />
                   </CardContent>
               </Card>

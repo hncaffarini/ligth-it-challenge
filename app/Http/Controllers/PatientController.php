@@ -20,7 +20,8 @@ class PatientController extends Controller
                 'unique:patients,email',
                 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/'
             ],
-            'phone' => 'required|string',
+            'phone_country' => 'required|integer|max_digits:4',
+            'phone_number' => 'required|integer|max_digits:15',
             'document_photo' => 'required|image|mimes:jpg|max:2048',
             ],[
             'email.regex' => 'Only mails from Gmail are allowed (@gmail.com).',
@@ -31,7 +32,8 @@ class PatientController extends Controller
         $patient = Patient::create([
             'full_name' => $request->full_name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'phone_country' => $request->phone_country,
+            'phone_number' => $request->phone_number,
             'document_photo' => $photoPath
         ]);
 

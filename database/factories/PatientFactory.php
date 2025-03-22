@@ -19,7 +19,8 @@ class PatientFactory extends Factory
         return [
             'full_name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'phone' => fake()->phoneNumber(),
+            'phone_country' => fake()->randomNumber(2, true),
+            'phone_number' => fake()->phoneNumber(),
             'document_photo' => fake()->image(),
         ];
     }
