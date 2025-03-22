@@ -49,6 +49,12 @@ php artisan migrate
 php artisan db:seed
 ```
 
+(inside the container) Run the storage link:
+
+```sh
+php artisan storage:link
+```
+
 (inside the container) Install NPM dependencies:
 
 ```sh

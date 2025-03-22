@@ -11,7 +11,7 @@ type RegisterForm = {
     full_name: string;
     email: string;
     phone: string;
-    document_photo: string;
+    document_photo: File | null;
 };
 
 type RegisterProps = {
@@ -23,7 +23,7 @@ export default function Register({ onPatientAdded }: RegisterProps) {
         full_name: '',
         email: '',
         phone: '',
-        document_photo: '',
+        document_photo: null,
     });
 
     const submit: FormEventHandler = (e) => {
@@ -101,10 +101,14 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                     <Input
                         id="document_photo"
                         type="file"
+                        accept="image/*"
                         required
                         tabIndex={4}
-                        value={data.document_photo}
-                        onChange={(e) => setData('document_photo', e.target.value)}
+                        onChange={(e) => {
+                            if (e.target.files && e.target.files[0]) {
+                                setData('document_photo', e.target.files[0]);
+                            }
+                        }}
                         disabled={processing}
                     />
                     <InputError message={errors.document_photo} />
