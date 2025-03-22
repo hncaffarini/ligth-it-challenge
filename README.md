@@ -55,6 +55,12 @@ php artisan db:seed
 php artisan storage:link
 ```
 
+(inside the container) Run queue worker (for the async mailing):
+
+```sh
+php artisan queue:work
+```
+
 (inside the container) Install NPM dependencies:
 
 ```sh

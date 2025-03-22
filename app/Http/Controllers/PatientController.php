@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Patient;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use App\Notifications\PatientRegistered;
 
 class PatientController extends Controller
 {
@@ -36,7 +35,7 @@ class PatientController extends Controller
             'document_photo' => $photoPath
         ]);
 
-        //Mail::to($patient->email)->queue(new PatientRegistered($patient));
+        $patient->notify(new PatientRegistered());
 
         return back()->with([
             'message' => 'Patient created successfully'

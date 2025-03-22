@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Patient;
+use App\Notifications\PatientRegistered;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,6 +16,7 @@ class PatientTest extends TestCase
 
     public function test_it_creates_a_patient_successfully()
     {
+        Notification::fake();
         Storage::fake('public');
 
         $file = UploadedFile::fake()->image('document.jpg');
@@ -32,7 +35,12 @@ class PatientTest extends TestCase
         ]);
 
         $patient = Patient::first();
+
         Storage::disk('public')->assertExists($patient->document_photo);
+
+        Notification::assertSentTo(
+            [$patient], PatientRegistered::class
+        );
 
         $response->assertRedirect()->assertSessionHas('message', 'Patient created successfully');
     }
