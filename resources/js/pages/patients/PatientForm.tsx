@@ -1,6 +1,6 @@
 import { useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState, useCallback } from 'react';
 
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -28,6 +28,9 @@ export default function Register({ onPatientAdded }: RegisterProps) {
         document_photo: null,
     });
 
+    const [isDragging, setIsDragging] = useState(false);
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
+
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('patient.store'), {
@@ -38,6 +41,7 @@ export default function Register({ onPatientAdded }: RegisterProps) {
             onSuccess: () => {
               console.log("Success");
               reset();
+              setPreviewImage(null);
               onPatientAdded();
             },
             onError: () => {
@@ -49,6 +53,41 @@ export default function Register({ onPatientAdded }: RegisterProps) {
     const handlePhoneChange = (field: keyof RegisterForm, value: string) => {
         const numericValue = value.replace(/\D/g, '');
         setData(field, numericValue);
+    };
+
+    const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(true);
+    }, []);
+
+    const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(false);
+    }, []);
+
+    const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(false);
+
+        const file = e.dataTransfer.files[0];
+        if (file && file.type === 'image/jpeg') {
+            setData('document_photo', file);
+            setPreviewImage(URL.createObjectURL(file));
+        } else {
+            alert('Only .jpg files are allowed.');
+        }
+    }, [setData]);
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            if (file.type === 'image/jpeg') {
+                setData('document_photo', file);
+                setPreviewImage(URL.createObjectURL(file));
+            } else {
+                alert('Only .jpg files are allowed.');
+            }
+        }
     };
 
     return (
@@ -121,19 +160,39 @@ export default function Register({ onPatientAdded }: RegisterProps) {
 
                 <div className="grid gap-2">
                     <Label htmlFor="document_photo">Document</Label>
-                    <Input
-                        id="document_photo"
-                        type="file"
-                        accept="image/*"
-                        required
-                        tabIndex={5}
-                        onChange={(e) => {
-                            if (e.target.files && e.target.files[0]) {
-                                setData('document_photo', e.target.files[0]);
-                            }
-                        }}
-                        disabled={processing}
-                    />
+                    <div
+                        className={`border-2 border-dashed rounded-lg p-6 text-center ${
+                            isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+                        }`}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                    >
+                        {previewImage ? (
+                            <img
+                                src={previewImage}
+                                alt="Preview"
+                                className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                            />
+                        ) : (
+                            <p>
+                                Drag and drop a .jpg image here, or click to select.
+                            </p>
+                        )}
+                        <Input
+                            id="document_photo"
+                            type="file"
+                            accept="image/jpeg"
+                            required
+                            tabIndex={5}
+                            onChange={handleFileChange}
+                            disabled={processing}
+                            className="hidden"
+                        />
+                        <Label htmlFor="document_photo" className="cursor-pointer text-blue-500">
+                            Select file
+                        </Label>
+                    </div>
                     <InputError message={errors.document_photo} />
                 </div>
 
