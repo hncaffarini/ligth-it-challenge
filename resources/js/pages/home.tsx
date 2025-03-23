@@ -1,4 +1,4 @@
-import PatientsList from '@/pages/patients/PatientsList';
+import PatientsList from '@/pages/patients/PatientList/PatientsList';
 import AddPatientButton from '@/pages/patients/AddPatientButton';
 import { Separator } from '@radix-ui/react-separator';
 //import { usePage } from '@inertiajs/react';
