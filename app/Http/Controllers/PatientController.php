@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Notifications\PatientRegistered;
 
-class PatientController extends Controller
+class PatientController
 {
     public function store(Request $request)
     {
@@ -22,7 +22,7 @@ class PatientController extends Controller
             ],
             'phone_country' => 'required|integer|max_digits:4',
             'phone_number' => 'required|integer|max_digits:15',
-            'document_photo' => 'required|image|mimes:jpg|max:2048',
+            'document_photo' => 'required|image|mimes:jpg|max:8192',
             ],[
             'email.regex' => 'Only mails from Gmail are allowed (@gmail.com).',
         ]);
