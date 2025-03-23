@@ -21,7 +21,7 @@ class PatientFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'phone_country' => fake()->randomNumber(2, true),
             'phone_number' => fake()->phoneNumber(),
-            'document_photo' => fake()->image(),
+            'document_photo' => 'https://thispersondoesnotexist.com',
         ];
     }
 }
