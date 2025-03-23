@@ -13,7 +13,7 @@ class PatientController extends Controller
     {
 
         $request->validate([
-            'full_name' => 'required|string|max:255',
+            'full_name' => 'required|string|alpha:ascii|max:100',
             'email' => [
                 'required',
                 'email',
