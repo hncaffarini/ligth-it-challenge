@@ -30,9 +30,49 @@ export default function Register({ onPatientAdded }: RegisterProps) {
 
     const [isDragging, setIsDragging] = useState(false);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+
+    const validateFullName = (fullName: string) => {
+        const lettersRegex = /^[A-Za-z\s]+$/;
+        if (!lettersRegex.test(fullName)) {
+            return 'Only letters and spaces are allowed.';
+        }
+        return '';
+    };
+
+    const validateEmail = (email: string) => {
+        const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+        if (!gmailRegex.test(email)) {
+            return 'Only @gmail.com emails are allowed.';
+        }
+        return '';
+    };
+
+    const isFormValid = () => {
+        const fullNameError = validateFullName(data.full_name);
+        const emailError = validateEmail(data.email);
+
+        const newValidationErrors = {
+            full_name: fullNameError,
+            email: emailError,
+        };
+
+        setValidationErrors(newValidationErrors);
+
+        if (fullNameError || emailError) {
+            return false;
+        } else {
+            return true;
+        }
+    };
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+
+        if (!isFormValid()) {
+            return;
+        }
+
         post(route('patient.store'), {
             onFinish: () => {
               console.log("Finish");
@@ -107,7 +147,7 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                         disabled={processing}
                         placeholder="Full name"
                     />
-                    <InputError message={errors.full_name} className="col-span-2" />
+                    <InputError message={validationErrors.full_name || errors.full_name} className="col-span-2" />
                 </div>
 
                 <div className="grid grid-cols-[1fr_2fr] items-center gap-4">
@@ -123,7 +163,7 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                         disabled={processing}
                         placeholder="email@example.com"
                     />
-                    <InputError message={errors.email} className="col-span-2" />
+                    <InputError message={validationErrors.email || errors.email} className="col-span-2" />
                 </div>
 
                 <div className="grid grid-cols-[1fr_2fr] items-center gap-4">
