@@ -36,7 +36,6 @@ export default function Register({ onPatientAdded }: RegisterProps) {
         post(route('patient.store'), {
             onFinish: () => {
               console.log("Finish");
-              //onPatientAdded();
             }, 
             onSuccess: () => {
               console.log("Success");
@@ -74,7 +73,7 @@ export default function Register({ onPatientAdded }: RegisterProps) {
             setData('document_photo', file);
             setPreviewImage(URL.createObjectURL(file));
         } else {
-            alert('Only .jpg files are allowed.');
+            alert('Only .jpg files are allowed');
         }
     }, [setData]);
 
@@ -85,7 +84,7 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                 setData('document_photo', file);
                 setPreviewImage(URL.createObjectURL(file));
             } else {
-                alert('Only .jpg files are allowed.');
+                alert('Only .jpg files are allowed');
             }
         }
     };
@@ -93,7 +92,7 @@ export default function Register({ onPatientAdded }: RegisterProps) {
     return (
         <form className="flex flex-col gap-6" onSubmit={submit}>
             <div className="grid gap-6">
-                <div className="grid gap-2">
+                <div className="grid grid-cols-[1fr_2fr] items-center gap-4">
                     <Label htmlFor="full_name">Full name</Label>
                     <Input
                         id="full_name"
@@ -107,10 +106,10 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                         disabled={processing}
                         placeholder="Full name"
                     />
-                    <InputError message={errors.full_name} className="mt-2" />
+                    <InputError message={errors.full_name} className="col-span-2" />
                 </div>
 
-                <div className="grid gap-2">
+                <div className="grid grid-cols-[1fr_2fr] items-center gap-4">
                     <Label htmlFor="email">Email address</Label>
                     <Input
                         id="email"
@@ -123,10 +122,10 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                         disabled={processing}
                         placeholder="email@example.com"
                     />
-                    <InputError message={errors.email} />
+                    <InputError message={errors.email} className="col-span-2" />
                 </div>
 
-                <div className="grid gap-2">
+                <div className="grid grid-cols-[1fr_2fr] items-center gap-4">
                     <Label htmlFor="phone_country">Country Code</Label>
                     <Input
                         id="phone_country"
@@ -139,10 +138,10 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                         disabled={processing}
                         placeholder="+598"
                     />
-                    <InputError message={errors.phone_country} />
+                    <InputError message={errors.phone_country} className="col-span-2" />
                 </div>
 
-                <div className="grid gap-2">
+                <div className="grid grid-cols-[1fr_2fr] items-center gap-4">
                     <Label htmlFor="phone_number">Phone Number</Label>
                     <Input
                         id="phone_number"
@@ -155,7 +154,7 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                         disabled={processing}
                         placeholder="11 2222 3333"
                     />
-                    <InputError message={errors.phone_number} />
+                    <InputError message={errors.phone_number} className="col-span-2" />
                 </div>
 
                 <div className="grid gap-2">
@@ -175,9 +174,7 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                                 className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                             />
                         ) : (
-                            <p>
-                                Drag and drop a .jpg image here, or click to select.
-                            </p>
+                            <p>Drag and drop a .jpg image here, or click to select.</p>
                         )}
                         <Input
                             id="document_photo"
