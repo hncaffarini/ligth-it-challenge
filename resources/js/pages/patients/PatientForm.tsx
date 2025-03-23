@@ -92,8 +92,9 @@ export default function Register({ onPatientAdded }: RegisterProps) {
     return (
         <form className="flex flex-col gap-6" onSubmit={submit}>
             <div className="grid gap-6">
+                <h1 className='font-semibold text-xl'>New patient</h1>
                 <div className="grid grid-cols-[1fr_2fr] items-center gap-4">
-                    <Label htmlFor="full_name">Full name</Label>
+                    <Label className='text-right' htmlFor="full_name">Full name</Label>
                     <Input
                         id="full_name"
                         type="text"
@@ -110,7 +111,7 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                 </div>
 
                 <div className="grid grid-cols-[1fr_2fr] items-center gap-4">
-                    <Label htmlFor="email">Email address</Label>
+                    <Label className='text-right' htmlFor="email">Email address</Label>
                     <Input
                         id="email"
                         type="email"
@@ -126,7 +127,7 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                 </div>
 
                 <div className="grid grid-cols-[1fr_2fr] items-center gap-4">
-                    <Label htmlFor="phone_country">Country Code</Label>
+                    <Label className='text-right' htmlFor="phone_country">Country Code</Label>
                     <Input
                         id="phone_country"
                         type="text"
@@ -142,7 +143,7 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                 </div>
 
                 <div className="grid grid-cols-[1fr_2fr] items-center gap-4">
-                    <Label htmlFor="phone_number">Phone Number</Label>
+                    <Label className='text-right' htmlFor="phone_number">Phone Number</Label>
                     <Input
                         id="phone_number"
                         type="text"

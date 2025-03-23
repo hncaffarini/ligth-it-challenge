@@ -21,6 +21,7 @@ function AddPatientButton() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          backdropFilter: "blur(7px)"
         }}>
           <div style={{ backgroundColor: "#1c1c1c", padding: "20px", borderRadius: "5px" }}>
             <PatientForm onPatientAdded={() => setIsOpen(false)} />
