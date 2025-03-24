@@ -1,10 +1,12 @@
 services:
-    laravel.test:
+    laravel:
+        container_name: lightit
         build:
-            context: './vendor/laravel/sail/runtimes/8.4'
+            context: './docker/8.4'
             dockerfile: Dockerfile
             args:
-                WWWGROUP: '${WWWGROUP}'
+                WWWGROUP: '${WWWGROUP:-1000}'
+                WORKING_DIR: '/var/www/html'
         image: 'sail-8.4/app'
         extra_hosts:
             - 'host.docker.internal:host-gateway'
@@ -25,6 +27,7 @@ services:
             - pgsql
             - mailpit
     pgsql:
+        container_name: db
         image: 'postgres:17'
         ports:
             - '${FORWARD_DB_PORT:-5432}:5432'
@@ -35,7 +38,7 @@ services:
             POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
         volumes:
             - 'sail-pgsql:/var/lib/postgresql/data'
-            - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+            - './docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
         networks:
             - sail
         healthcheck:
@@ -50,6 +53,7 @@ services:
             retries: 3
             timeout: 5s
     mailpit:
+        container_name: mail
         image: 'axllent/mailpit:latest'
         ports:
             - '${FORWARD_MAILPIT_PORT:-1025}:1025'
