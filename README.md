@@ -12,16 +12,10 @@ Clone the repo locally:
 git clone https://github.com/hncaffarini/ligth-it-challenge.git light-it && cd light-it
 ```
 
-Run the init script to start:
-
-```sh
-composer install
-```
-
 Setup configuration:
 
 ```sh
-cp .env.example .env && php artisan key:generate
+composer install && cp .env.example .env && php artisan key:generate
 ```
 
 Run docker:
