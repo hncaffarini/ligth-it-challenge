@@ -9,11 +9,10 @@ A demo application for patient registration.
 Clone the repo locally:
 
 ```sh
-git clone https://github.com/hncaffarini/ligth-it-challenge.git
-cd light-it-challenge
+git clone https://github.com/hncaffarini/ligth-it-challenge.git light-it && cd light-it
 ```
 
-Install PHP dependencies:
+Run the init script to start:
 
 ```sh
 composer install
@@ -22,28 +21,22 @@ composer install
 Setup configuration:
 
 ```sh
-cp .env.example .env
+cp .env.example .env && php artisan key:generate
 ```
 
-Generate application key:
+Run docker:
 
 ```sh
-php artisan key:generate
+docker compose up --build -d && docker exec -it lightit bash
 ```
 
-Run [sail](https://laravel.com/docs/12.x/sail#main-content):
-
-```sh
-./vendor/bin/sail up
-```
-
-(inside the container) Run database migrations:
+(inside the container) Run migrations:
 
 ```sh
 php artisan migrate
 ```
 
-(inside the container) Run database seeder:
+(inside the container) If you want some preloaded patients, please run database seeder:
 
 ```sh
 php artisan db:seed
@@ -55,20 +48,14 @@ php artisan db:seed
 php artisan storage:link
 ```
 
-(inside the container) Run queue worker (for the async mailing):
-
-```sh
-php artisan queue:work
-```
-
-(inside the container) Install NPM dependencies:
-
-```sh
-npm i
-```
-
 (inside the container) Build assets:
 
 ```sh
-npm run dev
+npm i && npm run build
+```
+
+(inside the container) If you want to test the async mailing, run queue worker:
+
+```sh
+php artisan queue:work
 ```
