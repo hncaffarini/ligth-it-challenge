@@ -1,5 +1,5 @@
 import { useForm } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
+import { LoaderCircle, CheckCircle2, AlertCircle } from 'lucide-react';
 import { FormEventHandler, useState, useCallback } from 'react';
 
 import InputError from '@/components/input-error';
@@ -20,7 +20,7 @@ type RegisterProps = {
 };
 
 export default function Register({ onPatientAdded }: RegisterProps) {
-    const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
+    const { data, setData, post, processing, errors, reset, wasSuccessful, recentlySuccessful, hasErrors } = useForm<Required<RegisterForm>>({
         full_name: '',
         email: '',
         phone_country: '',
@@ -81,7 +81,9 @@ export default function Register({ onPatientAdded }: RegisterProps) {
               console.log("Success");
               reset();
               setPreviewImage(null);
-              onPatientAdded();
+              setTimeout(() => {
+                onPatientAdded();
+              }, 3400);
             },
             onError: () => {
               console.log("Error");
@@ -233,11 +235,35 @@ export default function Register({ onPatientAdded }: RegisterProps) {
                     </div>
                     <InputError message={errors.document_photo} />
                 </div>
-
-                <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
-                    {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                    Add Patient
-                </Button>
+                
+                <div className="flex items-center gap-4">
+                    <Button
+                        type="submit"
+                        className={`mt-2 w-full text-white ${
+                            wasSuccessful ? 'bg-green-500 hover:bg-green-600' :
+                            hasErrors ? 'bg-red-500 hover:bg-red-600' :
+                            'bg-blue-500 hover:bg-blue-600'
+                        }`}
+                        tabIndex={5}
+                        disabled={processing}
+                    >
+                        {processing ? (
+                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                        ) : wasSuccessful ? (
+                            <div className="flex items-center gap-2">
+                                <CheckCircle2 className="h-4 w-4" />
+                                <span>Patient added successfully!</span>
+                            </div>
+                        ) : hasErrors ? (
+                            <div className="flex items-center gap-2">
+                                <AlertCircle className="h-4 w-4" />
+                                <span>Please review the patient data.</span>
+                            </div>
+                        ) : (
+                            'Add Patient'
+                        )}
+                    </Button>
+                </div>
             </div>
         </form>
     );
