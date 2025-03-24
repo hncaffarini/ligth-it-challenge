@@ -43,6 +43,7 @@ export interface User {
 }
 
 export interface Patient {
+    id: number;
     full_name: string;
     email: string;
     phone_country: string;
