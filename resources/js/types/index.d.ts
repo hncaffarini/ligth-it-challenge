@@ -28,6 +28,7 @@ export interface SharedData {
     auth: Auth;
     ziggy: Config & { location: string };
     [key: string]: unknown;
+    patients: Patient[];
 }
 
 export interface User {
@@ -39,4 +40,12 @@ export interface User {
     created_at: string;
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface Patient {
+    full_name: string;
+    email: string;
+    phone_country: string;
+    phone_number: string;
+    document_photo: File | null;
 }
