@@ -3,10 +3,8 @@ import AddPatientButton from '@/pages/patients/AddPatientButton';
 import { Separator } from '@radix-ui/react-separator';
 import { Head } from '@inertiajs/react';
 import Heading from '@/components/heading';
-//import { usePage } from '@inertiajs/react';
 
 function Home() {
-  //const { patients } = usePage().props;
   return (
     <>
         <Head title="Light-it" />
