@@ -1,17 +1,22 @@
 import PatientsList from '@/pages/patients/PatientList/PatientsList';
 import AddPatientButton from '@/pages/patients/AddPatientButton';
 import { Separator } from '@radix-ui/react-separator';
+import { Head } from '@inertiajs/react';
+import Heading from '@/components/heading';
 //import { usePage } from '@inertiajs/react';
 
 function Home() {
   //const { patients } = usePage().props;
   return (
-    <div style={{ padding: "20px", textAlign:"center", margin: "auto" }}>
-      <h1>Patient Registration</h1>
-      <AddPatientButton />
-      <Separator className="my-6 md:hidden"/>
-      <PatientsList />
-    </div>
+    <>
+        <Head title="Light-it" />
+        <div style={{ padding: "20px", textAlign:"center", margin: "auto" }}>
+          <Heading title='Light-it challenge' description='...a patient registration application using Laravel & React'></Heading>
+          <AddPatientButton />
+          <Separator className="my-6"/>
+          <PatientsList />
+        </div>
+    </>
   );
 }
 
