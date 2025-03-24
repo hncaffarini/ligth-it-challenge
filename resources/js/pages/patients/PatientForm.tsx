@@ -20,7 +20,7 @@ type RegisterProps = {
 };
 
 export default function Register({ onPatientAdded }: RegisterProps) {
-    const { data, setData, post, processing, errors, reset, wasSuccessful, recentlySuccessful, hasErrors } = useForm<Required<RegisterForm>>({
+    const { data, setData, post, processing, errors, reset, wasSuccessful, hasErrors } = useForm<Required<RegisterForm>>({
         full_name: '',
         email: '',
         phone_country: '',
